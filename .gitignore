@@ -48,3 +48,9 @@ Thumbs.db
 *.mov
 *.wmv
 
+.project
+local.properties
+/backend/app/build
+/backend/buildSrc/build
+.gradle
+.settings
