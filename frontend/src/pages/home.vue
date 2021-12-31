@@ -12,10 +12,19 @@
             {{ $store.state.me.first_name }} {{ $store.state.me.last_name }}
           </v-card-text>
           <v-card-actions class="justify-center">
-            <v-btn color="primary">{{ $t("logout") }}</v-btn>
+            <v-btn color="primary" @click="logout">{{ $t("logout") }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
   </div>
 </template>
+<script>
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch("LOGOUT");
+    }
+  }
+}
+</script>
