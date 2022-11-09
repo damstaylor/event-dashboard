@@ -4,15 +4,15 @@
 
 ### Prequisites
 - Node.JS 16+
-- Mariadb Server (or Mysql Server), either [installed](https://mariadb.org/) or ran in a docker instance
+- Mariadb Server (or Mysql Server), either [installed locally](https://mariadb.org/) or ran in a docker instance
 
 ### Recommended Tools
-- Visual Studio Code with Vetur and i18n Ally extensions
-- HeidiSql
-- Postman
+- Editor: Visual Studio Code with a vuejs extension (Vetur or Volar) and i18n Ally extensions
+- SQL Browser: HeidiSql or Dbeaver
+- (Optionnal) API Tester: Postman
 
 ### Create local database
-- Open your SQL Browser
+- Open a SQL Browser
 - Connect to your local server (by default 127.0.0.1:3306) with the root credentials (root and the password you set at installation time)
 - Create the database (name: exercice, encoding: utf8mb4_general_ci, Engine: InnoDB)
 
@@ -62,7 +62,7 @@ Some test data is inserted at first run in order to ease testing:
 ## Tech stacks
 
 - **Backend**: NodeJS + ExpressJS + [Sequelize](https://sequelize.org/)
-- **Frontend**: VueJS 2 + VueRouter + Vuex + Vue i18n + [Vuetify](https://vuetifyjs.com)
+- **Frontend**: Vue 2 + VueRouter + Vuex + Vue i18n + [Vuetify](https://vuetifyjs.com)
 
 ## Exercice
 
