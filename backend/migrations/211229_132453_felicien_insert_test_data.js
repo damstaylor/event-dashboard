@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   up: async (q) => {
     await q.sequelize.query(
       `

@@ -1,17 +1,17 @@
-const express = require("express");
-const morgan = require("morgan");
-const glob = require("glob");
-const path = require("path");
-const chalk = require("chalk");
-const bodyParser = require("body-parser");
-const jwt = require("express-jwt");
-const settings = require("./util/settings");
-const database = require("./util/database");
+import express from "express";
+import morgan from "morgan";
+import glob from "glob";
+import path from "path";
+import chalk from "chalk";
+import bodyParser from "body-parser";
+import jwt from "express-jwt";
+import settings from "./util/settings.js";
+import database from "./util/database.js";
 
 /**
  * patch express async errors handling
  */
-require("express-async-errors");
+import "express-async-errors";
 
 /**
  * Init web server
@@ -38,10 +38,7 @@ app.use(bodyParser.json());
  */
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Methods",
-    "GET,PUT,POST,DELETE,OPTIONS,PATCH"
-  );
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS,PATCH");
   res.header(
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, Content-Length, X-Requested-With, X-Device, X-App-Version"
@@ -52,33 +49,28 @@ app.use(function (req, res, next) {
     next();
   }
 });
-app.use(function (req, res, next) {
-  req.lang = req.header("Content-Language");
-  next();
-});
 
 app.get(["/", "/health"], async (req, res) => {
   await database.authenticate();
   res.json({
-    status: database.database_error || "UP",
+    status: database["database_error"] || "UP",
   });
 });
 
 /**
  * Protect paths
  */
-app.use(
-  "/api/auth/me",
-  jwt(Object.assign({ credentialsRequired: false }, settings.jwt))
-);
+app.use("/api/auth/me", jwt(Object.assign({ credentialsRequired: false }, settings.jwt)));
 app.use("/api/protected", jwt(settings.jwt));
 
 /**
  * Apply all routes from api folder
  */
-glob
-  .sync("./api/**/[^._]*.js")
-  .map((file) => app.use(path.dirname(file.slice(1)), require(file)));
+Promise.all(
+  glob
+    .sync("./api/**/[^._]*.js")
+    .map(async (file) => app.use(path.dirname(file.slice(1)), (await import(file)).default))
+);
 /**
  * Error handler
  */
@@ -88,13 +80,7 @@ app.use((err, req, res, next) => {
       console.debug(
         chalk.yellow("AppError"),
         chalk.yellow(err.message),
-        "at .../" +
-          err.stack
-            .split("\n")[1]
-            .split(/[\\/]/)
-            .slice(-3)
-            .join("/")
-            .slice(0, -1)
+        "at .../" + err.stack.split("\n")[1].split(/[\\/]/).slice(-3).join("/").slice(0, -1)
       );
       res.status(err.status || 400);
       res.json({
@@ -107,10 +93,7 @@ app.use((err, req, res, next) => {
       });
       break;
     case "UnauthorizedError":
-      console.debug(
-        chalk.yellow("UnauthorizedError"),
-        chalk.yellow(err.message)
-      );
+      console.debug(chalk.yellow("UnauthorizedError"), chalk.yellow(err.message));
       res.status(err.status || 401);
       res.json({
         error: err,
@@ -118,12 +101,7 @@ app.use((err, req, res, next) => {
       break;
     case "SequelizeValidationError":
       if (err.errors) {
-        err.errors.forEach((e) =>
-          console.debug(
-            chalk.yellow("ValidationError"),
-            chalk.yellow(e.message)
-          )
-        );
+        err.errors.forEach((e) => console.debug(chalk.yellow("ValidationError"), chalk.yellow(e.message)));
       }
       res.status(err.status || 400);
       res.json({
@@ -139,11 +117,7 @@ app.use((err, req, res, next) => {
       });
       break;
     default:
-      console.error(
-        chalk.bold.red("Technical error " + err.name),
-        chalk.red(err.message),
-        err
-      );
+      console.error(chalk.bold.red("Technical error " + err.name), chalk.red(err.message), err);
       res.status(err.status || 500);
       res.json({
         error: err,
@@ -156,11 +130,7 @@ app.use((err, req, res, next) => {
  * start server
  */
 app.listen(settings.constants.web.port, () =>
-  console.log(
-    chalk.green(
-      `Server started at http://localhost:${settings.constants.web.port}`
-    )
-  )
+  console.log(chalk.green(`API server (re-)started on port ${settings.constants.web.port}`))
 );
 
 process.on("SIGINT", () => {

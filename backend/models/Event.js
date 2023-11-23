@@ -1,5 +1,5 @@
-const { Model, DataTypes } = require("sequelize");
-const database = require("../util/database");
+import { Model, DataTypes } from "sequelize";
+import database from "../util/database.js";
 class Event extends Model {}
 Event.init(
   {
@@ -19,4 +19,4 @@ Event.init(
   }
 );
 
-module.exports = Event;
+export default Event;

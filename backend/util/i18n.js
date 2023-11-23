@@ -1,5 +1,7 @@
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
 const translations = require("../i18n/translations.json");
-module.exports = (key, lang) => {
+export default (key, lang) => {
   let langs = ["fr", "en"];
 
   if (langs.indexOf(lang) == -1) {

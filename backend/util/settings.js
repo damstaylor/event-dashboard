@@ -3,7 +3,7 @@ const settings = {
     dbConnectionUri:
       process.env.DB_CONNECTION_URI ||
       "mariadb://root:password@127.0.0.1:3306/exercice?connectTimeout=5000&autoReconnect=true&timezone=Europe/Paris",
-    logging: process.env.DB_LOGGING || false,
+    logging: Boolean(process.env.DB_LOGGING || false),
     timezone: process.env.DB_TIMEZONE || "Europe/Paris",
   },
   migration: {
@@ -23,4 +23,4 @@ const settings = {
   },
 };
 
-module.exports = settings;
+export default settings;

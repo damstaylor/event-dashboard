@@ -1,12 +1,13 @@
-const router = require("express").Router();
-const settings = require("../../util/settings");
-const jwt = require("jsonwebtoken");
-const User = require("../../models/User");
-const Code = require("../../models/Code");
-const Event = require("../../models/Event");
-const { v4: uuid } = require("uuid");
-const sms = require("../../util/sms");
-const $t = require("../../util/i18n");
+import { Router } from "express";
+const router = Router();
+import settings from "../../util/settings.js";
+import jwt from "jsonwebtoken";
+import User from "../../models/User.js";
+import Code from "../../models/Code.js";
+import Event from "../../models/Event.js";
+import { v4 as uuid } from "uuid";
+import { sendSMS } from "../../util/sms.js";
+import $t from "../../util/i18n.js";
 
 router.post("/sendCode", async (req, res) => {
   if (!req) return res.json(false);
@@ -30,8 +31,8 @@ router.post("/sendCode", async (req, res) => {
       user: user,
     });
 
-    let message = new_code + $t("sms.code", req.lang);
-    sms.send(phone_number, message);
+    let message = new_code + $t("sms.code", req.header("Content-Language"));
+    sendSMS(phone_number, message);
 
     return res.json(true);
   }
@@ -103,4 +104,4 @@ function getToken(user) {
   };
 }
 
-module.exports = router;
+export default router;

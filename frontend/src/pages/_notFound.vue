@@ -1,3 +1,4 @@
+<script setup></script>
 <template>
   <v-row justify="center">
     <v-col sm="12" md="8" lg="6" xl="4">
@@ -21,7 +22,3 @@
     </v-col>
   </v-row>
 </template>
-
-<script>
-export default {};
-</script>

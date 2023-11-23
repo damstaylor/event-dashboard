@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require("sequelize");
-const database = require("../util/database");
-const User = require("./User");
+import { Model, DataTypes } from "sequelize";
+import database from "../util/database.js";
+import User from "./User.js";
 class Code extends Model {}
 Code.init(
   {
@@ -27,4 +27,4 @@ Code.belongsTo(User, {
 });
 
 User.hasMany(Code);
-module.exports = Code;
+export default Code;

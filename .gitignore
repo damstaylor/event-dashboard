@@ -54,3 +54,4 @@ local.properties
 /backend/buildSrc/build
 .gradle
 .settings
+frontend/.eslintcache

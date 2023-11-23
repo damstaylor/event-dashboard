@@ -1,49 +1,42 @@
 import axios from "axios";
-import store from "../store";
+import pinia from "../stores";
+import { useAuthStore } from "../stores/authStore";
+import { useMessageStore } from "../stores/messageStore";
 import router from "../router";
-import Vue from "vue";
 
-axios.defaults.baseURL = process.env.VUE_APP_API_BASE_PATH;
+axios.defaults.baseURL = import.meta.env.VUE_APP_API_BASE_PATH;
 
 /**
  * Error handler
  */
 axios.interceptors.response.use(
-  (r) => r && r.data,
+  (r) => r,
   (error) => {
     if (!error.response) {
-      store.commit("I18N_MESSAGE", ["error", "errors.server.notreachable"]);
+      useMessageStore(pinia).i18nMessage("error", "errors.server.notreachable");
       return;
     }
     const status = error.response.status;
     const errorData = error.response.data.error || error.response.data;
     if (status === 401) {
       if (console && console.log) console.log("401 Unauthorized", errorData);
-      store.commit("I18N_MESSAGE", ["error", "errors.server.unauthorized"]);
-      store.dispatch("AUTHENTICATE", false).then(() => {
-        router.push("/login");
-      });
+      useMessageStore(pinia).i18nMessage("errors.server.unauthorized");
+      useAuthStore(pinia).logout();
+      router.push("/login");
     } else if (status === 400) {
       if (console && console.log) console.log("Bad request", errorData);
       if (errorData.name === "AppError") {
-        store.commit("I18N_MESSAGE", [
-          "error",
-          errorData.message,
-          errorData.params,
-        ]);
+        useMessageStore(pinia).i18nMessage("error", errorData.message, errorData.params);
       } else {
-        store.commit("I18N_MESSAGE", ["error", "errors.server.validation"]);
+        useMessageStore(pinia).i18nMessage("error", "errors.server.validation");
       }
     } else if (status === 500) {
       if (console && console.log) console.log("Technical error", errorData);
-      store.commit("I18N_MESSAGE", ["error", "errors.server.technical"]);
+      useMessageStore(pinia).i18nMessage("error", "errors.server.technical");
     } else {
-      if (console && console.log)
-        console.log("Unexpected error", status, errorData);
-      store.commit("I18N_MESSAGE", ["error", "errors.server.unexpected"]);
+      if (console && console.log) console.log("Unexpected error", status, errorData);
+      useMessageStore(pinia).i18nMessage("error", "errors.server.unexpected");
     }
   }
 );
-
-Vue.prototype.$axios = axios;
 export default axios;

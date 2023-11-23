@@ -1,49 +1,35 @@
+<script setup>
+import { useMessageStore } from "./stores/messageStore";
+import { useLoadingStore } from "./stores/loadingStore";
+
+const { messages } = useMessageStore();
+const { loading } = useLoadingStore();
+</script>
+
 <template>
-  <v-app ref="app">
+  <v-app>
     <v-snackbar
-      v-for="(message, index) in $store.state.messages"
+      v-for="(message, index) in messages"
       :key="index"
       :color="message.type || 'info'"
-      value="message.message"
-      top
+      :modelValue="true"
+      location="top"
       :timeout="message.timeout || 7000"
       class="mt-5"
     >
       {{ message.key ? $t(message.key, message.params) : message.message }}
-      <v-icon color="white" v-if="message.reactionAddons">{{
-        message.reactionAddons.type
-      }}</v-icon>
+      <v-icon color="white" v-if="message.reactionAddons">{{ message.reactionAddons.type }}</v-icon>
     </v-snackbar>
-    <v-fade-transition mode="out-in">
-      <v-overlay :value="$store.state.loading" opacity="0.7">
-        <v-progress-circular
-          indeterminate
-          color="primary"
-          size="64"
-        ></v-progress-circular>
-      </v-overlay>
-    </v-fade-transition>
-    <v-fade-transition mode="out-in">
-      <router-view />
-    </v-fade-transition>
+    <v-overlay :value="loading" opacity="0.7">
+      <v-progress-circular indeterminate color="primary" size="64"></v-progress-circular>
+    </v-overlay>
+    <router-view v-slot="{ Component }">
+      <v-fade-transition mode="out-in">
+        <component :is="Component" />
+      </v-fade-transition>
+    </router-view>
   </v-app>
 </template>
-
-<script>
-export default {
-  name: "App",
-  computed: {
-    event() {
-      if (!this.$store.state.me) {
-        return this.$store.state.event;
-      }
-      return this.$store.state.me.event;
-    },
-  },
-  beforeCreate() {},
-  mounted() {},
-};
-</script>
 
 <style>
 html,

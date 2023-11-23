@@ -1,6 +1,6 @@
-const { Model, DataTypes } = require("sequelize");
-const database = require("../util/database");
-const Event = require("./Event");
+import { Model, DataTypes } from "sequelize";
+import database from "../util/database.js";
+import Event from "./Event.js";
 class User extends Model {}
 User.init(
   {
@@ -40,4 +40,4 @@ User.belongsTo(Event, {
 
 Event.hasMany(User);
 
-module.exports = User;
+export default User;
