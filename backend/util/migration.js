@@ -1,20 +1,25 @@
 import chalk from "chalk";
 import settings from "./settings.js";
-import Umzug from "umzug";
+import { Umzug, SequelizeStorage } from "umzug";
+import { Sequelize } from "sequelize";
 
 async function migrate(sequelize) {
-  await new Umzug({
+  const umzug = new Umzug({
     migrations: {
-      path: settings.migration.directory,
-      params: [sequelize.getQueryInterface()],
+      glob: "migrations/*.js",
+      resolve: ({ name, path, context }) => {
+        return {
+          name,
+          up: async () => (await import("file://" + path)).default.up(context, Sequelize),
+          down: async () => (await import("file://" + path)).default.down(context, Sequelize),
+        };
+      },
     },
-    storage: "sequelize",
-    storageOptions: {
-      sequelize: sequelize,
-    },
-  })
-    .on("migrated", (e) => console.log(chalk.green("✓  MIGRATION EXECUTED"), e))
-    .up();
+    context: sequelize.getQueryInterface(),
+    storage: new SequelizeStorage({ sequelize }),
+    logger: console,
+  });
+  await umzug.up();
 }
 
 async function migrationHelper(sequelize) {
