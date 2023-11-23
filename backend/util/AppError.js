@@ -6,4 +6,4 @@ class AppError extends Error {
 }
 AppError.prototype.name = "AppError";
 
-module.exports = AppError;
+export default AppError;

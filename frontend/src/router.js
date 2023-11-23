@@ -1,90 +1,81 @@
-import Vue from "vue";
-import Router from "vue-router";
-import NotFound from "./pages/_notFound";
-import store from "./store";
+import { createRouter, createWebHistory } from "vue-router";
+import pinia from "@/stores";
+import { useAuthStore } from "@/stores/authStore";
 
-// const PassThrough = {
-//   render(c) {
-//     return c("router-view");
-//   },
-// };
-
-Vue.use(Router);
-
-const router = new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes: [
-    {
-      path: "/",
-      components: {
-        default: require("./pages/_layout.user").default,
-      },
-      children: [
-        {
-          path: "/",
-          components: {
-            default: require("./pages/home").default,
-          },
-        },
-        {
-          path: "/logout",
-          meta: {
-            public: true,
-          },
-          beforeEnter: async () => {
-            await store.dispatch("LOGOUT");
-          },
-        },
-        {
-          path: "/signin",
-          components: {
-            default: require("./pages/signin").default,
-          },
-          meta: {
-            public: true,
-          },
-          beforeEnter: (to, from, next) => {
-            if (store.state.me) {
-              next("/");
-            } else {
-              next();
-            }
-          },
-        },
-      ],
+const routes = [
+  {
+    path: "/",
+    components: {
+      default: () => import("@/pages/_layout.user.vue"),
     },
-    {
-      path: "/*",
-      component: NotFound,
-      meta: {
-        public: true,
+    children: [
+      {
+        path: "/",
+        components: {
+          default: () => import("@/pages/home.vue"),
+        },
       },
+      {
+        path: "/logout",
+        meta: {
+          public: true,
+        },
+        beforeEnter: async () => {
+          useAuthStore(pinia).logout();
+        },
+      },
+      {
+        path: "/signin",
+        components: {
+          default: () => import("@/pages/signin.vue"),
+        },
+        meta: {
+          public: true,
+        },
+        beforeEnter: (to, from, next) => {
+          const { me } = useAuthStore(pinia);
+          if (me) {
+            next("/");
+          } else {
+            next();
+          }
+        },
+      },
+    ],
+  },
+  {
+    path: "/*",
+    component: () => import("@/pages/_notFound.vue"),
+    meta: {
+      public: true,
     },
-  ],
+  },
+];
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.query && to.query.auth) {
-    store.commit("AUTH", { access_token: to.query.auth });
-    let query = Object.assign({}, to.query);
-    delete query.auth;
-    router.replace({ path: to.path, query: query });
-    return;
-  }
   if (isPublicPath(to)) {
     return next();
   }
-  store.dispatch("AUTHENTICATE").then(() => {
-    if (store.state.me) {
-      next();
-    } else {
-      next({
-        path: "signin",
-        replace: true,
-      });
-    }
-  });
+  if (useAuthStore(pinia).me) {
+    return next();
+  }
+  useAuthStore(pinia)
+    .authenticate()
+    .then((me) => {
+      if (me) {
+        next();
+      } else {
+        next({
+          path: "signin",
+          replace: true,
+        });
+      }
+    });
 });
 
 const isPublicPath = (to) => {

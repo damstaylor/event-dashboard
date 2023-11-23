@@ -1,6 +1,6 @@
-const chalk = require("chalk");
-const settings = require("./settings");
-const Umzug = require("umzug");
+import chalk from "chalk";
+import settings from "./settings.js";
+import Umzug from "umzug";
 
 async function migrate(sequelize) {
   await new Umzug({
@@ -25,4 +25,4 @@ async function migrationHelper(sequelize) {
   }
 }
 
-module.exports = migrationHelper;
+export default migrationHelper;

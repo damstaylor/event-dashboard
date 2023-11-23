@@ -1,5 +1,6 @@
 {
   "$vuetify": {
+    "open": "Ouvert",
     "badge": "Badge",
     "calendar": {
       "moreEvents": "{0} plus"
@@ -96,7 +97,8 @@
     "signinRegistration": "ou connectez vous avec votre numéro d'inscription",
     "submit": "Se connecter",
     "title": "Accédez à votre espace participant",
-    "username": "E-mail"
+    "username": "E-mail",
+    "code": "Saississez le code reçu"
   },
   "notFound": {
     "backHome": "Retourner à l'accueil",

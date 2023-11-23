@@ -5,6 +5,7 @@
   "main": "server.js",
   "license": "UNLICENSED",
   "private": true,
+  "type": "module",
   "dependencies": {
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
@@ -21,18 +22,18 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.2",
     "optionator": "^0.9.1",
-    "sequelize": "^7.0.0-alpha.3",
+    "sequelize": "^6.35.1",
     "umzug": "^2.3.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
-    "eslint": "^7.26.0",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "nodemon": "^2.0.7",
-    "prettier": "^2.2.1"
+    "@types/node": "^20.9.4",
+    "dotenv": "^8.6.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.10.0",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8",
+    "typescript": "^5.3.2"
   },
   "scripts": {
     "start": "nodemon -r dotenv/config server.js --quiet --colors dotenv_config_path=.env.local",

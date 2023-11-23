@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   up: async (q) => {
     await q.sequelize.query(
       "CREATE TABLE IF NOT EXISTS `events` (`id` CHAR(36) NOT NULL , `name` VARCHAR(30) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB;"
