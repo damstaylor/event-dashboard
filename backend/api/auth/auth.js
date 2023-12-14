@@ -15,7 +15,7 @@ router.post("/sendCode", async (req, res) => {
   let phone_number = req.body.phone.replace(/ /g, "");
 
   let user = await User.findOne({
-    where: { phone_number: phone_number },
+    where: { phone_number },
   });
 
   if (user) {
@@ -23,12 +23,7 @@ router.post("/sendCode", async (req, res) => {
     await Code.create({
       id: uuid(),
       code: new_code,
-      userId: user.id,
       user_id: user.id,
-      users_id: user.id,
-      usersId: user.id,
-      users: user,
-      user: user,
     });
 
     let message = new_code + $t("sms.code", req.header("Content-Language"));
@@ -54,8 +49,8 @@ router.post("/loginWithCode", async (req, res) => {
     ],
   });
 
-  if (code && code.user) {
-    return res.json(getToken(code.user));
+  if (code && code.User) {
+    return res.json(getToken(code.User));
   }
   return res.json(false);
 });
@@ -82,6 +77,9 @@ function randomCode(length) {
   return result;
 }
 
+/**
+ * @returns
+ */
 function getToken(user) {
   let accessToken = jwt.sign(
     {
@@ -89,7 +87,7 @@ function getToken(user) {
       username: user.email,
       email: user.email,
       phone_number: user.phone_number,
-      event: user.event,
+      event: user.Event,
     },
     settings.jwt.secret,
     {

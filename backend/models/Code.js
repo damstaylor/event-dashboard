@@ -1,30 +1,43 @@
-import { Model, DataTypes } from "sequelize";
+import { DataTypes } from "sequelize";
 import database from "../util/database.js";
 import User from "./User.js";
-class Code extends Model {}
-Code.init(
-  {
-    id: {
-      type: DataTypes.CHAR(36),
-      allowNull: false,
-      primaryKey: true,
-    },
-    code: {
-      type: DataTypes.STRING(30),
-      allowNull: false,
-    },
-  },
-  {
-    sequelize: database,
-    modelName: "codes",
-  }
-);
 
-Code.belongsTo(User, {
-  foreignKey: {
+// ⓘ JSdoc allow type checking in pure javascript. https://jsdoc.app
+/**
+ * @typedef CodeAttributes
+ * @property {string} id
+ * @property {string} code
+ * @property {string} user_id
+ * @property {User=} User
+ */
+/**
+ * @type {ReturnType<typeof database.define<CodeAttributes & import("sequelize").Model<CodeAttributes, import("sequelize").Optional<CodeAttributes, 'id'>>>>}
+ */
+const Code = database.define("Codes", {
+  id: {
+    type: DataTypes.CHAR(36),
     allowNull: false,
+    primaryKey: true,
+  },
+  code: {
+    type: DataTypes.STRING(30),
+    allowNull: false,
+  },
+  user_id: {
+    type: DataTypes.CHAR(36),
+    allowNull: false,
+    references: {
+      model: User,
+      key: "id",
+    },
   },
 });
 
-User.hasMany(Code);
+Code.belongsTo(User, {
+  foreignKey: "user_id",
+});
+User.hasMany(Code, {
+  foreignKey: "user_id",
+});
+
 export default Code;

@@ -15,7 +15,7 @@ async function disconnect() {
       <v-col cols="12" sm="8" md="6" lg="5" xl="4">
         <v-card class="mt-5 elevation-12">
           <v-card-title class="text-center text-subtitle-1 font-weight-medium pb-0">
-            {{ me.event.name }}
+            {{ me.Event.name }}
           </v-card-title>
           <v-card-text> {{ me.first_name }} {{ me.last_name }} </v-card-text>
           <v-card-actions class="justify-center">
