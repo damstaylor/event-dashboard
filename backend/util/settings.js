@@ -1,10 +1,7 @@
 const settings = {
   database: {
-    dbConnectionUri:
-      process.env.DB_CONNECTION_URI ||
-      "mariadb://root:password@127.0.0.1:3306/exercice?connectTimeout=5000&autoReconnect=true&timezone=Europe/Paris",
+    dbConnectionUri: process.env.DB_CONNECTION_URI || "sqlite://local-db.sqlite3",
     logging: Boolean(process.env.DB_LOGGING || false),
-    timezone: process.env.DB_TIMEZONE || "Europe/Paris",
   },
   migration: {
     directory: process.env["MIGRATION_DIR"] || "./migrations",

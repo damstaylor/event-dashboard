@@ -5,11 +5,6 @@ import migration from "./migration.js";
 
 const sequelize = new Sequelize(settings.database.dbConnectionUri, {
   logging: settings.database.logging,
-  timezone: settings.database.timezone,
-  pool: settings.database.pool,
-  dialectOptions: {
-    connectTimeout: settings.database.connectTimeout,
-  },
   define: { timestamps: false },
 });
 

@@ -4,29 +4,15 @@
 
 ### Prequisites
 
-- Node.JS 16+
-- Mariadb Server (or Mysql Server), either [installed locally](https://mariadb.org/) or ran in a docker instance
+- [Node.JS 16+](https://nodejs.org)
 
 ### Recommended Tools
 
-- Editor: Visual Studio Code with a vuejs extension (Vetur or Volar) and i18n Ally extensions
-- SQL Browser: HeidiSql or Dbeaver
-- (Optionnal) API Tester: Postman
+[Visual Studio Code](https://code.visualstudio.com/) with recommended extensions (will be proposed to install when opening project):
 
-### Create local database
-
-- Open a SQL Browser
-- Connect to your local server (by default 127.0.0.1:3306) with the root credentials (root and the password you set at installation time)
-- Create the database (name: exercice, encoding: utf8mb4_general_ci, Engine: InnoDB)
-
-### Backend Settings (Optionnal)
-
-Default settings can be overrided by creating a `backend/.env.local` file. Example:
-
-```
-DB_CONNECTION_URI=mariadb://root:password@127.0.0.1:3306/exercice
-PORT=3000
-```
+- SQLite (usefull to browse local database)
+- Volar (Vue.JS support)
+- I18n ally (localisation support)
 
 ### Run backend
 
@@ -35,6 +21,9 @@ cd backend
 npm install
 npm start
 ```
+
+⚠ By default, the backend will create a local file-based sqlite database at `backend/local-db.sqlite3`
+You can browse it with the VSCode SQLite extension or any other sql browser tool.
 
 ### Run frontend
 
@@ -61,14 +50,14 @@ Users can currently login using their phone number through the following workflo
 - A random numeric code is generated and sent to the user by SMS (In this exercice **the message is not really sent but printed to the server console instead**)
 - User enter the code
 
-Some test data is inserted at first run in order to ease testing:
+Some test data are inserted at first run in order to ease testing:
 
 - John Doe (06 12 34 56 78)
 - Jean Dupont (06 00 00 00 00)
 
 ## Tech stacks
 
-- **Backend**: NodeJS + ExpressJS + [Sequelize](https://sequelize.org/)
+- **Backend**: NodeJS + ExpressJS + [Sequelize](https://sequelize.org/) + SQLite
 - **Frontend**: Vue 3 + VueRouter + Pinia + Vue i18n + [Vuetify 3](https://vuetifyjs.com)
 
 ## Exercice
