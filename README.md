@@ -10,7 +10,7 @@
 
 [Visual Studio Code](https://code.visualstudio.com/) with recommended extensions (will be proposed to install when opening project):
 
-- SQLite (usefull to browse local database)
+- sqlite-viewer (usefull to browse local database)
 - Volar (Vue.JS support)
 - I18n ally (localisation support)
 
@@ -23,7 +23,7 @@ npm start
 ```
 
 ⚠ By default, the backend will create a local file-based sqlite database at `backend/local-db.sqlite3`
-You can browse it with the VSCode SQLite extension or any other sql browser tool.
+You can browse it with the VSCode sqlite-viewer extension or any other sql browser tool.
 
 ### Run frontend
 
