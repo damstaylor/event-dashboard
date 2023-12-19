@@ -56,10 +56,10 @@ router.post("/loginWithCode", async (req, res) => {
 });
 
 router.get("/me", async (req, res) => {
-  if (!req.user || !req.user.id) {
+  if (!req["user"]?.id) {
     return res.json(null);
   }
-  const user = await User.findByPk(req.user.id, {
+  const user = await User.findByPk(req["user"].id, {
     include: [{ model: Event }],
   });
   res.json(user);
@@ -77,17 +77,11 @@ function randomCode(length) {
   return result;
 }
 
-/**
- * @returns
- */
 function getToken(user) {
   let accessToken = jwt.sign(
     {
       id: user.id,
-      username: user.email,
       email: user.email,
-      phone_number: user.phone_number,
-      event: user.Event,
     },
     settings.jwt.secret,
     {

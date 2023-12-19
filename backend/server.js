@@ -17,17 +17,14 @@ import "express-async-errors";
  * Init web server
  */
 const app = express();
-morgan.token("user_email", function (req) {
-  return req.user && (req.user.username || req.user.email);
-});
 morgan.token("user_id", function (req) {
-  return req.user && req.user.id;
+  return req["user"]?.id;
 });
 morgan.token("app_version", function (req) {
-  return req.headers && req.headers["x-app-version"];
+  return req.headers && req.headers["x-app-version"]?.toString();
 });
 morgan.token("device", function (req) {
-  return req.headers && req.headers["x-device"];
+  return req.headers && req.headers["x-device"]?.toString();
 });
 app.use("/api/", morgan(settings.constants.web.logFormat));
 
