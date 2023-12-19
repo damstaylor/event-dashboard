@@ -72,6 +72,8 @@ async function loginWithCode() {
                 :label="$t('login.phone')"
                 :placeholder="$t('login.phone')"
                 :preferCountries="['fr']"
+                :rules="[$v.required()]"
+                validate-on="blur"
               ></v-phone-input>
               <v-text-field
                 class="prepend-icon-wide"
@@ -86,20 +88,10 @@ async function loginWithCode() {
             </v-card-text>
 
             <v-card-actions class="justify-center pb-4">
-              <v-btn
-                v-show="!data.phoneNumberExists"
-                type="submit"
-                :disabled="data.phone && !data.valid"
-                color="secondary"
-              >
+              <v-btn v-show="!data.phoneNumberExists" type="submit" :disabled="!data.valid" color="secondary">
                 {{ $t("login.sendCode") }}
               </v-btn>
-              <v-btn
-                v-show="data.phoneNumberExists"
-                type="submit"
-                :disabled="data.phone && !data.valid"
-                color="secondary"
-              >
+              <v-btn v-show="data.phoneNumberExists" type="submit" :disabled="!data.valid" color="secondary">
                 {{ $t("login.submit") }}
               </v-btn>
             </v-card-actions>
