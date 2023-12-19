@@ -78,9 +78,15 @@
   },
   "login": {
     "incorrect_code": "The code you entered is incorrect, please try again.",
+    "incorrectRegistrationNumber": "Wrong registration number",
+    "lastName": "Last name",
+    "password": "Code received by SMS",
     "phone": "Enter your phone number",
     "phone_not_found": "Phone number not found",
+    "registrationNumber": "Registration number",
     "sendCode": "Send Code",
+    "signinWithSms": "or login with sms code",
+    "signinRegistration": "or login with registration number",
     "submit": "Login",
     "title": "Access your participant space",
     "code": "Enter received code"
