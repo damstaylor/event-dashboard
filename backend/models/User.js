@@ -9,6 +9,7 @@ import Event from "./Event.js";
  * @property {string} phone_number
  * @property {string=} first_name
  * @property {string=} last_name
+ * @property {string=} registration_number
  * @property {Date=} last_connected
  * @property {string} event_id
  * @property {Event=} Event
@@ -33,6 +34,10 @@ const User = database.define("Users", {
   last_name: {
     type: DataTypes.STRING(255),
     allowNull: true,
+  },
+  registration_number: {
+    type: DataTypes.STRING(8),
+    allowNull: false,
   },
   last_connected: {
     type: DataTypes.DATE,
