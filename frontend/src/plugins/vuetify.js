@@ -15,7 +15,6 @@ import { useI18n } from "vue-i18n";
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
-  defaultTheme: "light",
   theme: {
     themes: {
       light: {

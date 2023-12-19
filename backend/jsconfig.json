@@ -5,6 +5,7 @@
     "moduleResolution": "nodenext",
     "disableSizeLimit": true,
     "skipLibCheck": true,
-    "maxNodeModuleJsDepth": 0
+    "maxNodeModuleJsDepth": 0,
+    "resolveJsonModule": true
   }
 }

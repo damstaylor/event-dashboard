@@ -39,8 +39,9 @@
   "scripts": {
     "start": "nodemon -r dotenv/config server.js --quiet --colors dotenv_config_path=.env.local",
     "serve": "nodemon server.js --quiet",
-    "lint": "eslint .",
-    "fix": "eslint --fix ."
+    "lint": "tsc -p jsconfig.json && eslint .",
+    "fix": "eslint . --fix && prettier --write .",
+    "format": "prettier --write ."
   },
   "engines": {
     "node": ">=10.0.0"

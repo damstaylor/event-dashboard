@@ -16,4 +16,5 @@
  * @param {P} props
  * @return {DefinedPropertiesOf<T,P>}
  */
+// eslint-disable-next-line no-unused-vars
 export const CastDefinedPropertiesOf = (Class, props) => Class;
