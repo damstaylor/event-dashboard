@@ -1,7 +1,7 @@
 const settings = {
   database: {
     dbConnectionUri: process.env.DB_CONNECTION_URI || "sqlite://local-db.sqlite3",
-    logging: Boolean(process.env.DB_LOGGING || false),
+    logging: ["1", "true", "enabled"].includes(process.env.DB_LOGGING) && console.log,
   },
   migration: {
     directory: process.env["MIGRATION_DIR"] || "./migrations",
