@@ -59,7 +59,7 @@ async function loginWithCode() {
     <v-row justify="center" dense>
       <v-col cols="12" sm="8" md="6" lg="5" xl="4">
         <v-card class="mt-5 elevation-12">
-          <v-card-title class="text-center pb-0">
+          <v-card-title class="text-center pt-3">
             {{ $t("login.title") }}
           </v-card-title>
 
@@ -85,7 +85,7 @@ async function loginWithCode() {
               ></v-text-field>
             </v-card-text>
 
-            <v-card-actions class="justify-center">
+            <v-card-actions class="justify-center pb-4">
               <v-btn
                 v-show="!data.phoneNumberExists"
                 type="submit"
