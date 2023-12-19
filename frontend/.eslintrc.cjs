@@ -5,7 +5,7 @@ module.exports = {
   root: true,
   extends: ["plugin:vue/vue3-essential", "eslint:recommended", "@vue/eslint-config-prettier/skip-formatting"],
   parserOptions: {
-    ecmaVersion: 8,
+    ecmaVersion: "latest",
   },
   rules: {
     "no-unused-vars": ["warn", { ignoreRestSiblings: true, varsIgnorePattern: "Types|Models" }],
